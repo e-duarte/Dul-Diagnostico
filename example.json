@@ -13,5 +13,6 @@
     "data_validation":[
         "possible vars"
     ],
-    "pixelSize": "dimensions of columns"
+    "pixelSize": "dimensions of columns",
+    "teachers": false
 }

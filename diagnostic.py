@@ -3,8 +3,11 @@ from googleapiclient.discovery import build
 from db import get_db
 import pandas as pd
 import json
+import sys
 
-with open('header-matematica-raimunda.json') as header_file:
+HEADER_FILE = sys.argv[1]
+
+with open(HEADER_FILE) as header_file:
     header_data = json.load(header_file)
 
 MATTER = header_data['matter']
@@ -15,9 +18,10 @@ DATA_VALIDATION = header_data['data_validation']
 BIMESTRE = header_data['bimestre']
 PIXELSIZE = header_data['pixelSize']
 METADATA = header_data['metadata']
+TEACHERS_CONFIG = header_data['teachers']
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-CREDENTIALS = 'credentials.json'
+CREDENTIALS = 'credentials.json' 
 
 class GoogleSheetConnect:
     def __init__(self, credentials):
@@ -559,17 +563,16 @@ spreadsheet_service.build_spreadsheet(f'FICHA DE {MATTER} {YEAR}', class_ids)
 
 
 for i, class_obj in enumerate(classes):
-    # employee_id = class_obj['employee_id']
+    teacher_name = db.employees.find_one({'_id': class_obj['employee_id']}) if TEACHERS_CONFIG else ''
+
     class_id = class_obj['class_id']
-    # teacher = db.employees.find_one({'_id': employee_id})
 
     header = {
         'titulo': TITLE,
-        # 'professor': teacher['name'],
-        'professor': '',
+        'professor': teacher_name,
         'ano': class_obj['year'],
         'bimestre': BIMESTRE,
-        'turma': class_obj['class_id'],
+        'turma': class_id,
         'turno': class_obj['period'],
         'vars':  VARS,
     }
