@@ -127,3 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#projetc
+credentials.json
+header-leitura-escrita.json
+header-leitura.json
+header-matematica-raimunda.json
+header-matematica1.json
+header-matematica2.json
+header-matematica345.json
+header-portugues345.json
+header-psicogenese.json

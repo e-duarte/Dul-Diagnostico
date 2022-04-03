@@ -1,0 +1,17 @@
+{
+    "metadata": {
+        "school": "name",
+        "inep": "id"
+    },
+    "matter": "materia",
+    "title": "sheet title",
+    "year": ". or year",
+    "bimestre": "BIMESTRE",
+    "vars": [
+        "items"
+    ],
+    "data_validation":[
+        "possible vars"
+    ],
+    "pixelSize": "dimensions of columns"
+}
