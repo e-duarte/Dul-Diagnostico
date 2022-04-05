@@ -1,6 +1,9 @@
 import pandas as pd
+import sys
 
-df_turmas = pd.read_csv('turmas/turmas-raimunda.csv')
+ROOM_FILE = sys.argv[1]
+
+df_turmas = pd.read_csv(ROOM_FILE)
 classes = df_turmas['TURMA'].drop_duplicates()[:-2].copy().tolist()
 classes.sort()
 
