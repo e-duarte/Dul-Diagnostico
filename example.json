@@ -1,18 +1,24 @@
 {
     "metadata": {
-        "school": "name",
-        "inep": "id"
+        "school": "",
+        "inep": ""
     },
-    "matter": "materia",
-    "title": "sheet title",
-    "year": ". or year",
-    "bimestre": "BIMESTRE",
+    "matter": "MATEMÁTICA",
+    "title": "DIAGNÓSTICO BIMESTRAL MATEMÁTICA",
+    "year": "1º ANO",
+    "bimestre": "1º BIMESTRE",
     "vars": [
-        "items"
+        "ADIÇÃO",
+        "SUBTRAÇÃO",
+        "MULTIPLICAÇÃO",
+        "DIVISÃO"
     ],
     "data_validation":[
-        "possible vars"
+        ["SIM", "NÃO"],
+        ["SIM", "NÃO"],
+        ["SIM", "NÃO"],
+        ["SIM", "NÃO"]
     ],
-    "pixelSize": "dimensions of columns",
+    "pixelSize": 120,
     "teachers": false
 }

@@ -6,6 +6,7 @@ import json
 import sys
 
 HEADER_FILE = sys.argv[1]
+CLASSES_FILE = sys.argv[2]
 
 with open(HEADER_FILE) as header_file:
     header_data = json.load(header_file)
@@ -552,8 +553,26 @@ def data_validation(spreadsheet_service, num_rows, num_vars, sheet_id, data_valu
     spreadsheet_service.format_cells(body)
 
 
-db = get_db()
-classes = list(db.classes.find({}) if YEAR == '.' else db.classes.find({'year': YEAR}))
+def get_classes(file, year='.'):
+    classes_df = pd.read_csv(file, na_filter=False)
+    columns = classes_df.columns
+
+    classes_df = classes_df[classes_df[columns[1]] == year] if not year == '.' else classes_df
+    classes = []
+
+    for i, row in classes_df.iterrows():
+        columns = classes_df.columns
+        classes.append({
+            'class_id': row[columns[0]],
+            'year': row[columns[1]],
+            'period': row[columns[2]],
+            'teacher': row[columns[3]]
+        })
+
+    return classes
+
+
+classes = get_classes(CLASSES_FILE, year=YEAR)
 
 classes = sorted(classes, key=lambda class_item: class_item['class_id'])
 class_ids = [class_item['class_id'] for class_item in classes]
@@ -561,15 +580,12 @@ class_ids = [class_item['class_id'] for class_item in classes]
 spreadsheet_service = SpreadsheetService()
 spreadsheet_service.build_spreadsheet(f'FICHA DE {MATTER} {YEAR}', class_ids)
 
-
 for i, class_obj in enumerate(classes):
-    teacher_name = db.employees.find_one({'_id': class_obj['employee_id']}) if TEACHERS_CONFIG else ''
-
     class_id = class_obj['class_id']
 
     header = {
         'titulo': TITLE,
-        'professor': teacher_name,
+        'professor': class_obj['teacher'],
         'ano': class_obj['year'],
         'bimestre': BIMESTRE,
         'turma': class_id,
