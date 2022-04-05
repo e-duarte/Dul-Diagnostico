@@ -138,4 +138,5 @@ header-matematica2.json
 header-matematica345.json
 header-portugues345.json
 header-psicogenese.json
-*.pdf
+*.csv
+/turmas
