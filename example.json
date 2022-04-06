@@ -19,6 +19,5 @@
         ["SIM", "NÃO"],
         ["SIM", "NÃO"]
     ],
-    "pixelSize": 120,
-    "teachers": false
+    "pixelSize": 120
 }

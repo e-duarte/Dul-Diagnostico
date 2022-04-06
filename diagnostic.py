@@ -1,16 +1,18 @@
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
-from db import get_db
 import pandas as pd
 import json
 import sys
 
-HEADER_FILE = sys.argv[1]
-CLASSES_FILE = sys.argv[2]
+CONFIG_FILE = 'config.json'
 
-with open(HEADER_FILE) as header_file:
-    header_data = json.load(header_file)
+with open(CONFIG_FILE, encoding="utf8") as config_file:
+    config = json.load(config_file)
 
+    with open(config['header_file'], encoding="utf8") as header_file:
+        header_data = json.load(header_file)
+    
+CLASSES_FILE = config['classes_file']
 MATTER = header_data['matter']
 YEAR = header_data['year']
 TITLE = header_data['title']
@@ -19,10 +21,10 @@ DATA_VALIDATION = header_data['data_validation']
 BIMESTRE = header_data['bimestre']
 PIXELSIZE = header_data['pixelSize']
 METADATA = header_data['metadata']
-TEACHERS_CONFIG = header_data['teachers']
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-CREDENTIALS = 'credentials.json' 
+CREDENTIALS = f'{sys._MEIPASS}/credentials.json' 
+# CREDENTIALS = 'credentials.json' 
 
 class GoogleSheetConnect:
     def __init__(self, credentials):

@@ -1,0 +1,23 @@
+{
+    "metadata": {
+        "school": "",
+        "inep": ""
+    },
+    "matter": "MATEMÁTICA",
+    "title": "DIAGNÓSTICO BIMESTRAL MATEMÁTICA",
+    "year": "1º ANO",
+    "bimestre": "1º BIMESTRE",
+    "vars": [
+        "ADIÇÃO",
+        "SUBTRAÇÃO",
+        "MULTIPLICAÇÃO",
+        "DIVISÃO"
+    ],
+    "data_validation":[
+        ["SIM", "NÃO"],
+        ["SIM", "NÃO"],
+        ["SIM", "NÃO"],
+        ["SIM", "NÃO"]
+    ],
+    "pixelSize": 120
+}

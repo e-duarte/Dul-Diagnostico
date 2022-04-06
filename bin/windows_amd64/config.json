@@ -1,0 +1,5 @@
+{
+    "header_file": "example.json",
+    "classes_file": "classes.csv",
+    "rooms_file": "rooms.csv"
+}
