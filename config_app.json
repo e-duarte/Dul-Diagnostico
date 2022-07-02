@@ -1,0 +1,163 @@
+{
+    "PORTUGUÊS": {
+        "rooms": [
+            "F1M901",
+            "F1M902",
+            "F1M903",
+            "F1M904",
+            "F1M905",
+            "F1T901",
+            "F1T902",
+            "F1T903",
+            "F1T904",
+            "F1T905",
+            "F2M901",
+            "F2M902",
+            "F2M903",
+            "F2M904",
+            "F2T901",
+            "F2T902",
+            "F2T903",
+            "F2T904",
+            "F2T905",
+            "F3M901",
+            "F3M902",
+            "F3M903",
+            "F3M904",
+            "F3M905",
+            "F3T901",
+            "F3T902",
+            "F3T903",
+            "F3T904",
+            "F3T905",
+            "F4M901",
+            "F4M902",
+            "F4M903",
+            "F4M904",
+            "F4T901",
+            "F4T902",
+            "F4T903",
+            "F5M901",
+            "F5T901"
+        ],
+        "links": [
+            {
+                "year": 1,
+                "link": "1hDvrqrKcbsJ-bEwGodPBreiZAwRgNpjtPQykaVcpTno"
+            },
+            {
+                "year": 2,
+                "link": "12Pd2FDKRHC0HvJFqVvyYh9vJX_DNzvs9--X6W5dycNY"
+            },
+            {
+                "year": 3,
+                "link": "17XSK_s-s1hDJgvoMsPPKRoPj7xEGgYUXVyAOAsgoYKE"
+            },
+            {
+                "year": 4,
+                "link": "1YAJ6PC3TEHYwPCB1tRRNacUqMXwoaJ9YCMf71AetNbk"
+            },
+            {
+                "year": 5,
+                "link": "1j3KlB8Uz981XiG-e9GlRna92boiLZ0Glq6pRumAGsi8"
+            }
+        ]
+    },
+    "MATEMÁTICA": {
+        "rooms": [
+            "F1M901",
+            "F1M902",
+            "F1M903",
+            "F1M904",
+            "F1M905",
+            "F1T901",
+            "F1T902",
+            "F1T903",
+            "F1T904",
+            "F1T905",
+            "F2M901",
+            "F2M902",
+            "F2M903",
+            "F2M904",
+            "F2T901",
+            "F2T902",
+            "F2T903",
+            "F2T904",
+            "F2T905",
+            "F3M901",
+            "F3M902",
+            "F3M903",
+            "F3M904",
+            "F3M905",
+            "F3T901",
+            "F3T902",
+            "F3T903",
+            "F3T904",
+            "F3T905",
+            "F4M901",
+            "F4M902",
+            "F4M903",
+            "F4M904",
+            "F4T901",
+            "F4T902",
+            "F4T903",
+            "F5M901",
+            "F5T901"
+        ],
+        "links": [
+            {
+                "year": 1,
+                "link": "1jD5WG06db17DPIzss2Yr9HNcQVV1pI-ilxUh3j7qFME"
+            },
+            {
+                "year": 2,
+                "link": "1tCL5B3hBcS-NN72wfh7oc220k-T1XMJMrw-cx_QRVrg"
+            },
+            {
+                "year": 3,
+                "link": "13fF08kAeMYy6vvH5PXf960lpc9jw2a1qlq5Cwql9rKI"
+            },
+            {
+                "year": 4,
+                "link": "1o4CFfpAjysXrOmp7BRX6vbkJkwdmVwlXHQICFquPe4I"
+            },
+            {
+                "year": 5,
+                "link": "1YqmV3dPvCMbjgseEMggZTWy1uW7XZboPCSr90H2HJg0"
+            }
+        ]
+    },
+    "PSICOGÊNESE": {
+        "rooms": [
+            "F1M901",
+            "F1M902",
+            "F1M903",
+            "F1M904",
+            "F1M905",
+            "F1T901",
+            "F1T902",
+            "F1T903",
+            "F1T904",
+            "F1T905",
+            "F2M901",
+            "F2M902",
+            "F2M903",
+            "F2M904",
+            "F2T901",
+            "F2T902",
+            "F2T903",
+            "F2T904",
+            "F2T905"
+        ],
+        "links": [
+            {
+                "year": 1,
+                "link": "1KtxOQ6A3PkB7u8RujBc5d2khs5NwJeCQtU1hHcppnU0"
+            },
+            {
+                "year": 2,
+                "link": "1vlCqFYKzNIB8Z5ogx1YriUgqJVctNoEYWxzwkkvnyu0"
+            }
+        ]
+    }
+}

@@ -2,7 +2,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 import pandas as pd
 import json
-import sys
+from export_data_to_app import add_config, add_test
 
 CONFIG_FILE = 'config.json'
 
@@ -13,6 +13,7 @@ with open(CONFIG_FILE, encoding="utf8") as config_file:
         header_data = json.load(header_file)
     
 CLASSES_FILE = config['classes_file']
+ROOMS_FILE = config['rooms_file']
 MATTER = header_data['matter']
 YEAR = header_data['year']
 TITLE = header_data['title']
@@ -22,13 +23,15 @@ BIMESTRE = header_data['bimestre']
 PIXELSIZE = header_data['pixelSize']
 METADATA = header_data['metadata']
 
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-CREDENTIALS = f'{sys._MEIPASS}/credentials.json' 
-# CREDENTIALS = 'credentials.json' 
+SCOPES = ['https://www.googleapis.com/auth/drive','https://www.googleapis.com/auth/spreadsheets', ]
+# CREDENTIALS = f'{sys._MEIPASS}/credentials.json' 
+CREDENTIALS = 'credentials.json' 
 
 class GoogleSheetConnect:
     def __init__(self, credentials):
-        self.service = self.connect_service(self.login(credentials))
+        creds = self.login(credentials);
+        self.service = self.connect_service(creds)
+        self.drive = self.connect_drive(creds)
 
     def login(self, credentials):
         flow = InstalledAppFlow.from_client_secrets_file(
@@ -41,11 +44,70 @@ class GoogleSheetConnect:
         service = build('sheets', 'v4', credentials=credentials)
 
         return service
+    def connect_drive(self, credentials):
+        return build('drive', 'v3', credentials=credentials)
 
 class SpreadsheetService:
     def __init__(self):
-        self.service = GoogleSheetConnect(CREDENTIALS).service
+        google_connect = GoogleSheetConnect(CREDENTIALS)
+        self.service = google_connect.service
+        self.drive = google_connect.drive
         self.spreadsheet = {}
+    
+
+    def search_folder(self, name):
+        page_token = None
+        return self.drive.files().list(q=f"mimeType='application/vnd.google-apps.folder' and name='{name}'",
+                                         spaces='drive',
+                                         fields='nextPageToken, files(id, name, parents)',
+                                         pageToken=page_token).execute()
+
+    def get_id_folder(self):
+        response = self.search_folder(BIMESTRE)
+        folder_id = ''
+
+        for f in response['files']:
+            p_id = f['parents'][0]
+            parent_response = self.drive.files().get(fileId=p_id,).execute()
+            parent_name = parent_response['name']
+
+            if parent_name == METADATA['year']:
+                folder_id = f['id']
+
+                
+        return folder_id
+    
+    def move_spreadsheet(self, file_id, folder_id):
+        file = self.drive.files().get(fileId=file_id,
+                                        fields='parents').execute()
+        previous_parents = ",".join(file.get('parents'))
+        file = self.drive.files().update(fileId=file_id,
+                                            addParents=folder_id,
+                                            removeParents=previous_parents,
+                                            fields='id, parents').execute()
+    
+    def callback(self, request_id, response, exception):
+        if exception:
+            # Handle error
+            print(exception)
+        else:
+            print(f"Permission Id: {response.get('id')}")
+
+    def share_spreadsheet(self, file_id):
+        batch = self.drive.new_batch_http_request(callback=self.callback)
+        user_permission = {
+            'type': 'user',
+            'role': 'writer',
+            'emailAddress': METADATA['shared']
+        }
+
+        batch.add(self.drive.permissions().create(
+                fileId=file_id,
+                body=user_permission,
+                fields='id',
+        ))
+
+        batch.execute()
 
     def build_spreadsheet(self, spreadsheet_title, sheet_titles):
 
@@ -95,8 +157,12 @@ class SpreadsheetService:
         }
 
         spreadsheet = self.service.spreadsheets().create(body=spreadsheet,).execute()
+        spreadsheet_id = spreadsheet.get('spreadsheetId')
         print('Spreadsheet ID: {0}'.format(spreadsheet.get('spreadsheetId')))
 
+        folder_id = self.get_id_folder()
+        self.move_spreadsheet(spreadsheet_id, folder_id)
+        self.share_spreadsheet(spreadsheet_id)
 
         self.spreadsheet = spreadsheet
 
@@ -401,14 +467,6 @@ def create_template(spreadsheet_service, header, sheet_id):
 
     spreadsheet_service.format_cells(body)
 
-def get_students(class_id):
-    students = pd.read_csv(f'turmas/{class_id}.csv')
-    students = students.values
-    students.sort(axis=0)
-    students =  students.tolist()
-
-    return students
-
 def format_student_cells(spreadsheet_service, num_rows, num_columns, sheet_id, num_vars):
     sheets = spreadsheet_service.spreadsheet['sheets']
     body = {
@@ -554,16 +612,14 @@ def data_validation(spreadsheet_service, num_rows, num_vars, sheet_id, data_valu
 
     spreadsheet_service.format_cells(body)
 
-
 def get_classes(file, year='.'):
     classes_df = pd.read_csv(file, na_filter=False)
-    columns = classes_df.columns
+    columns = classes_df.columns.values
 
     classes_df = classes_df[classes_df[columns[1]] == year] if not year == '.' else classes_df
     classes = []
 
     for i, row in classes_df.iterrows():
-        columns = classes_df.columns
         classes.append({
             'class_id': row[columns[0]],
             'year': row[columns[1]],
@@ -573,14 +629,36 @@ def get_classes(file, year='.'):
 
     return classes
 
+def load_class_students(rooms_path_file):
+    class_students_df = pd.read_csv(f'{rooms_path_file}')
+    rooms = class_students_df['TURMA'].drop_duplicates()[:-2].copy().tolist()
+
+    all_students = {r:(class_students_df[class_students_df['TURMA'] == r]['ALUNOS']).values for r in rooms}
+
+    return all_students
+
+def get_students(class_id):
+    class_students = load_class_students(ROOMS_FILE)
+    students = class_students[class_id]
+
+    students = [[student] for student in students]
+
+    return students
+
 
 classes = get_classes(CLASSES_FILE, year=YEAR)
-
 classes = sorted(classes, key=lambda class_item: class_item['class_id'])
 class_ids = [class_item['class_id'] for class_item in classes]
 
 spreadsheet_service = SpreadsheetService()
 spreadsheet_service.build_spreadsheet(f'FICHA DE {MATTER} {YEAR}', class_ids)
+
+spreadsheet_id = spreadsheet_service.spreadsheet.get('spreadsheetId')
+
+print('Exporting connfigurations and tests files')
+add_config(MATTER, class_ids, {'year': int(YEAR[0]), 'link': spreadsheet_id})
+add_test(header_data)
+
 
 for i, class_obj in enumerate(classes):
     class_id = class_obj['class_id']

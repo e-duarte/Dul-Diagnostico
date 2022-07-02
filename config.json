@@ -1,5 +1,5 @@
 {
-    "header_file": "example.json",
-    "classes_file": "classes.csv",
-    "rooms_file": "rooms.csv"
+    "header_file": "header-portugues345.json",
+    "classes_file": "classes_dulcineia.csv",
+    "rooms_file": "rooms_dulcineia_updated.csv"
 }
