@@ -1,4 +1,3 @@
-from distutils.command.sdist import sdist
 import json
 import os.path
 
@@ -93,6 +92,11 @@ def add_test(header):
 
     with open(TESTS_APP_PATH, 'w', encoding='utf8') as file:
         json.dump(tests_app, file,  indent=4, ensure_ascii=False)
+
+
+def add_room_data():
+    pass
+
 
 config_app = load_json(CONFIG_APP_PATH)
 tests_app = load_json(TESTS_APP_PATH)
