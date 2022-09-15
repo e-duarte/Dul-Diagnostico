@@ -27,6 +27,7 @@ SCOPES = ['https://www.googleapis.com/auth/drive','https://www.googleapis.com/au
 # CREDENTIALS = f'{sys._MEIPASS}/credentials.json' 
 CREDENTIALS = '/home/ewerton/Credentials/client_secret_api_console_diagnostic_script.json' 
 
+
 class GoogleSheetConnect:
     def __init__(self, credentials):
         creds = self.login(credentials);
