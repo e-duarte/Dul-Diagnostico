@@ -2,9 +2,9 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 import pandas as pd
 import json
-from export_data_to_app import add_config, add_test
+from export_data_to_json import add_subject_test, add_classrooms
 
-CONFIG_FILE = 'config.json'
+CONFIG_FILE = 'configs/config_diagnostic.json'
 
 with open(CONFIG_FILE, encoding="utf8") as config_file:
     config = json.load(config_file)
@@ -12,20 +12,20 @@ with open(CONFIG_FILE, encoding="utf8") as config_file:
     with open(config['header_file'], encoding="utf8") as header_file:
         header_data = json.load(header_file)
     
-CLASSES_FILE = config['classes_file']
-ROOMS_FILE = config['rooms_file']
-MATTER = header_data['matter']
-YEAR = header_data['year']
+CLASSROOMS_FILE = config['classrooms_file']
+STUDENTS_FILE = config['students_file']
+SUBJECT = header_data['subject']
+GRADE = header_data['grade']
 TITLE = header_data['title']
 VARS = header_data['vars']
 DATA_VALIDATION = header_data['data_validation']
-BIMESTRE = header_data['bimestre']
+BIMESTER = header_data['bimester']
 PIXELSIZE = header_data['pixelSize']
 METADATA = header_data['metadata']
 
 SCOPES = ['https://www.googleapis.com/auth/drive','https://www.googleapis.com/auth/spreadsheets', ]
 # CREDENTIALS = f'{sys._MEIPASS}/credentials.json' 
-CREDENTIALS = 'credentials.json' 
+CREDENTIALS = '/home/ewerton/Credentials/client_secret_api_console_diagnostic_script.json' 
 
 class GoogleSheetConnect:
     def __init__(self, credentials):
@@ -63,7 +63,7 @@ class SpreadsheetService:
                                          pageToken=page_token).execute()
 
     def get_id_folder(self):
-        response = self.search_folder(BIMESTRE)
+        response = self.search_folder(BIMESTER)
         folder_id = ''
 
         for f in response['files']:
@@ -210,7 +210,7 @@ def create_template(spreadsheet_service, header, sheet_id):
             [header['titulo']],
             [''],
             [f'PROFESSOR (A) {header["professor"]}'],
-            ['', header['ano'], header['bimestre'], header['turma'], header['turno']],
+            ['', f"{header['ano']}º ANO", f"{header['bimestre']}º BIMESTRE", header['turma'], header['turno']],
             [''],
             header_vars
         ]
@@ -612,22 +612,22 @@ def data_validation(spreadsheet_service, num_rows, num_vars, sheet_id, data_valu
 
     spreadsheet_service.format_cells(body)
 
-def get_classes(file, year='.'):
-    classes_df = pd.read_csv(file, na_filter=False)
-    columns = classes_df.columns.values
+def get_classrooms(file, grade='.'):
+    classrooms_df = pd.read_csv(file, na_filter=False)
+    columns = classrooms_df.columns.values
 
-    classes_df = classes_df[classes_df[columns[1]] == year] if not year == '.' else classes_df
-    classes = []
+    classrooms_df = classrooms_df[classrooms_df[columns[1]] == grade] if not grade == '' else classrooms_df
+    dict_classrooms = []
 
-    for i, row in classes_df.iterrows():
-        classes.append({
-            'class_id': row[columns[0]],
-            'year': row[columns[1]],
+    for i, row in classrooms_df.iterrows():
+        dict_classrooms.append({
+            'classroom': row[columns[0]],
+            'grade': row[columns[1]],
             'period': row[columns[2]],
-            'teacher': row[columns[3]]
+            'teacher': row[columns[3]],
         })
 
-    return classes
+    return dict_classrooms
 
 def load_class_students(rooms_path_file):
     class_students_df = pd.read_csv(f'{rooms_path_file}')
@@ -638,38 +638,48 @@ def load_class_students(rooms_path_file):
     return all_students
 
 def get_students(class_id):
-    class_students = load_class_students(ROOMS_FILE)
+    class_students = load_class_students(STUDENTS_FILE)
     students = class_students[class_id]
 
     students = [[student] for student in students]
 
     return students
 
+classrooms = get_classrooms(CLASSROOMS_FILE, grade=GRADE)
 
-classes = get_classes(CLASSES_FILE, year=YEAR)
-classes = sorted(classes, key=lambda class_item: class_item['class_id'])
-class_ids = [class_item['class_id'] for class_item in classes]
+classrooms = sorted(classrooms, key=lambda class_item: class_item['classroom'])
 
 spreadsheet_service = SpreadsheetService()
-spreadsheet_service.build_spreadsheet(f'FICHA DE {MATTER} {YEAR}', class_ids)
+spreadsheet_service.build_spreadsheet(
+    f'FICHA DE {SUBJECT} {GRADE}',
+    [class_item['classroom'] for class_item in classrooms]
+)
 
 spreadsheet_id = spreadsheet_service.spreadsheet.get('spreadsheetId')
 
-print('Exporting connfigurations and tests files')
-add_config(MATTER, class_ids, {'year': int(YEAR[0]), 'link': spreadsheet_id})
-add_test(header_data)
+print('Exporting settings file')
+add_subject_test(
+    {
+        'link': spreadsheet_id,
+        'subject': SUBJECT,
+        'title': TITLE,
+        'grade': GRADE,
+        'bimester': BIMESTER,
+        'vars': {f'{var}':validation for var, validation in zip(VARS, DATA_VALIDATION)}
+    }
+)
+add_classrooms(classrooms)
 
-
-for i, class_obj in enumerate(classes):
-    class_id = class_obj['class_id']
+for i, classroom_obj in enumerate(classrooms):
+    class_id = classroom_obj['classroom']
 
     header = {
         'titulo': TITLE,
-        'professor': class_obj['teacher'],
-        'ano': class_obj['year'],
-        'bimestre': BIMESTRE,
+        'professor': classroom_obj['teacher'],
+        'ano': classroom_obj['grade'],
+        'bimestre': BIMESTER,
         'turma': class_id,
-        'turno': class_obj['period'],
+        'turno': classroom_obj['period'],
         'vars':  VARS,
     }
 
