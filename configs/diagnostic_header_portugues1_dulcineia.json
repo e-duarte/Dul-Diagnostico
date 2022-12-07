@@ -1,0 +1,30 @@
+{
+    "metadata": {
+        "school": "ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL DULCINÉIA ALMEIDA DO NASCIMENTO",
+        "inep": "15111130",
+        "year": "2022",
+        "shared": "mobilediagnostic@rare-deployment-332518.iam.gserviceaccount.com"
+    },
+    "subject": "PORTUGUÊS",
+    "title": "DIAGNÓSTICO BIMESTRAL DE LEITURA",
+    "grade": 1,
+    "bimester": 4,
+    "vars": [
+        "IDENTIFICA E NOMEIA AS LETRAS DO ALFABETO",
+        "ESCREVE O NOME PRÓPRIO",
+        "LEITURA"
+    ],
+    "data_validation":[
+        ["SIM", "NÃO"],
+        ["SIM", "NÃO"],
+        [
+            "NÃO SABE LÊ",
+            "LÊ PALAVRAS CANÔNICAS",
+            "LÊ PALAVRAS NÃO CANÔNICAS",
+            "LÊ FRASES",
+            "LÊ PEQUENOS TEXTOS COM PROSÓDIA DEFICIENTE",
+            "LÊ PEQUENOS TEXTOS COM FLUÊNCIA"
+        ]
+    ],
+    "pixelSize": 120
+}

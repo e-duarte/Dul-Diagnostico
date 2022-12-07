@@ -20,12 +20,15 @@ def load_json(path):
     return settings_file
 
 def add_subject_test(test_data):
+
     new_subjects = list(
         filter(
-            lambda subject: test_data['subject'] != subject['subject'] and test_data['grade'] == subject['grade'],
+            lambda subject: f'{test_data["subject"]}-{test_data["grade"]}' != f'{subject["subject"]}-{subject["grade"]}',
             settings_app['tests']
         )
     )
+    print(new_subjects)
+
     new_subjects.append(test_data)
 
     settings_app['tests'] = new_subjects

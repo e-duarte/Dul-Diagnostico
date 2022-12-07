@@ -30,28 +30,35 @@ def load_users(user_file_path):
     users_df = pd.read_csv(user_file_path)
     columns = users_df.columns.values
     users_formated = []
-
+    print(users_df)
     for i, row in users_df.iterrows():
         users_formated.append({
-            'USER': row[columns[0]],
-            'EMAIL': row[columns[1]],
-            'MANAGER': row[columns[2]],
-            'PERMISSION': row[columns[3]],
+            'user': row[columns[0]],
+            'email': row[columns[1]],
+            'manager': row[columns[2]],
+            'permission': str(int(row[columns[3]])),
         })
     
     return users_formated
 
+def insert_year_bimester(setting_obj):
+    setting_obj['year'] = datetime.now().year
+    setting_obj['bimester'] = setting_obj['tests'][0]['bimester']
+
 settings = load_json(SETTINGS_FILE)
 
-users = load_users(USERS_FILE)
+# users = load_users(USERS_FILE)
 
 init_firestore()
 
 db = firestore.client()
 
-# settings['timestamp'] = datetime.timestamp(datetime.now())
+settings['timestamp'] = datetime.timestamp(datetime.now())
 
-# insert_data('settings', db, settings)
-for u in users:
-    insert_data('users', db, u)
+insert_year_bimester(settings)
+
+insert_data('settings', db, settings)
+
+# for u in users:
+    # insert_data('users', db, u)
 

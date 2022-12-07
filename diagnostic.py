@@ -13,6 +13,7 @@ with open(CONFIG_FILE, encoding="utf8") as config_file:
         header_data = json.load(header_file)
     
 CLASSROOMS_FILE = config['classrooms_file']
+USERS_FILE = config['users_file']
 STUDENTS_FILE = config['students_file']
 SUBJECT = header_data['subject']
 GRADE = header_data['grade']
@@ -64,7 +65,7 @@ class SpreadsheetService:
                                          pageToken=page_token).execute()
 
     def get_id_folder(self):
-        response = self.search_folder(BIMESTER)
+        response = self.search_folder(f'{BIMESTER}º BIMESTRE')
         folder_id = ''
 
         for f in response['files']:
@@ -617,10 +618,12 @@ def get_classrooms(file, grade='.'):
     classrooms_df = pd.read_csv(file, na_filter=False)
     columns = classrooms_df.columns.values
 
+    
+
     classrooms_df = classrooms_df[classrooms_df[columns[1]] == grade] if not grade == '' else classrooms_df
     dict_classrooms = []
 
-    for i, row in classrooms_df.iterrows():
+    for i, row in classrooms_df.iterrows():        
         dict_classrooms.append({
             'classroom': row[columns[0]],
             'grade': row[columns[1]],
@@ -646,6 +649,7 @@ def get_students(class_id):
 
     return students
 
+
 classrooms = get_classrooms(CLASSROOMS_FILE, grade=GRADE)
 
 classrooms = sorted(classrooms, key=lambda class_item: class_item['classroom'])
@@ -666,17 +670,24 @@ add_subject_test(
         'title': TITLE,
         'grade': GRADE,
         'bimester': BIMESTER,
-        'vars': {f'{var}':validation for var, validation in zip(VARS, DATA_VALIDATION)}
+        'vars': {f'{var}':validation for var, validation in zip(VARS, DATA_VALIDATION)} if SUBJECT != 'PSICOGÊNESE' else {'PSICOGÊNESE':VARS}
     }
 )
+
 add_classrooms(classrooms)
+
+users_df = pd.read_csv(USERS_FILE)
 
 for i, classroom_obj in enumerate(classrooms):
     class_id = classroom_obj['classroom']
 
+    teacher_email = classroom_obj['teacher']
+    user_serie = users_df.loc[users_df['email'] == teacher_email]
+    username = user_serie['user'].values[0]
+
     header = {
         'titulo': TITLE,
-        'professor': classroom_obj['teacher'],
+        'professor': username,
         'ano': classroom_obj['grade'],
         'bimestre': BIMESTER,
         'turma': class_id,

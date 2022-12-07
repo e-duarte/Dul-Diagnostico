@@ -1,0 +1,21 @@
+{
+    "metadata": {
+        "school": "ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL DULCINÉIA ALMEIDA DO NASCIMENTO",
+        "inep": "15111130",
+        "year": "2022",
+        "shared": "mobilediagnostic@rare-deployment-332518.iam.gserviceaccount.com"
+    },
+    "subject": "PSICOGÊNESE",
+    "title": "DIAGNÓSTICO BIMESTRAL DE PISCOGÊNESE DA LÍNGUA ESCRITA",
+    "grade": 1,
+    "bimester": 4,
+    "vars": [
+        "PRÉ-SILÁBICO I",
+        "PRÉ-SILÁBICO II",
+        "SILÁBICO",
+        "SILÁBICO-ALFABÉTICO",
+        "ALFABÉTICO"
+    ],
+    "data_validation":[],
+    "pixelSize": 120
+}

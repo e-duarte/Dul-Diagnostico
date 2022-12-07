@@ -1,0 +1,25 @@
+{
+    "metadata": {
+        "school": "ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL DULCINÉIA ALMEIDA DO NASCIMENTO",
+        "inep": "15111130",
+        "year": "2022",
+        "shared": "rosienesilva147@gmail.com"
+    },
+    "subject": "INTERVENÇÃO",
+    "title": "COMPONENTE CURRICULAR: LÍNGUA PORTUGUESA",
+    "grade": 4,
+    "bimester": 4,
+    "vars": [
+        "ESCRITA DO NOME PRÓPRIO CURSIVO",
+        "LEITURA",
+        "PRODUÇÃO DE TEXTO",
+        "INTERPRETAÇÃO TEXTUAL"
+    ],
+    "data_validation":[
+        ["MUITA DIFICULDADE", "POUCA DIFICULDADE", "NÍVEL ADEQUADO", "PODE AVANÇAR"],
+        ["MUITA DIFICULDADE", "POUCA DIFICULDADE", "NÍVEL ADEQUADO", "PODE AVANÇAR"],
+        ["MUITA DIFICULDADE", "POUCA DIFICULDADE", "NÍVEL ADEQUADO", "PODE AVANÇAR"],
+        ["MUITA DIFICULDADE", "POUCA DIFICULDADE", "NÍVEL ADEQUADO", "PODE AVANÇAR"]
+    ],
+    "pixelSize": 180
+}

@@ -1,5 +1,6 @@
 {
-    "header_file": "configs/diagnostic_header_example.json",
-    "students_file": "data/students_dulcineia.csv",
-    "classrooms_file": "data/classrooms_dulcineia.csv"
+    "header_file": "configs/diagnostic_header_portugues345_dulcineia.json",
+    "students_file": "data/students_dulcineia_4bim.csv",
+    "classrooms_file": "data/classrooms_dulcineia.csv",
+    "users_file": "data/users.csv"
 }
