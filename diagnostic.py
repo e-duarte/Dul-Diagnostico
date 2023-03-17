@@ -635,7 +635,11 @@ def get_classrooms(file, grade='.'):
 
 def load_class_students(rooms_path_file):
     class_students_df = pd.read_csv(f'{rooms_path_file}')
-    rooms = class_students_df['TURMA'].drop_duplicates()[:-2].copy().tolist()
+
+    all_rooms = class_students_df['TURMA'].drop_duplicates().copy().tolist()
+    all_rooms.sort()
+    rooms = all_rooms[2:]
+    # rooms = class_students_df['TURMA'].drop_duplicates()[:-2].copy().tolist()
 
     all_students = {r:(class_students_df[class_students_df['TURMA'] == r]['ALUNOS']).values for r in rooms}
 
@@ -643,12 +647,17 @@ def load_class_students(rooms_path_file):
 
 def get_students(class_id):
     class_students = load_class_students(STUDENTS_FILE)
-    students = class_students[class_id]
 
+    students = class_students[class_id]
+    students.sort()
+    for s in students:
+        print(s)
     students = [[student] for student in students]
 
     return students
 
+get_students('F2M905')
+exit()
 
 classrooms = get_classrooms(CLASSROOMS_FILE, grade=GRADE)
 

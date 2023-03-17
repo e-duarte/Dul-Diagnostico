@@ -45,20 +45,20 @@ def insert_year_bimester(setting_obj):
     setting_obj['year'] = datetime.now().year
     setting_obj['bimester'] = setting_obj['tests'][0]['bimester']
 
-settings = load_json(SETTINGS_FILE)
+# settings = load_json(SETTINGS_FILE)
 
-# users = load_users(USERS_FILE)
+users = load_users(USERS_FILE)
 
 init_firestore()
 
 db = firestore.client()
 
-settings['timestamp'] = datetime.timestamp(datetime.now())
+# settings['timestamp'] = datetime.timestamp(datetime.now())
 
-insert_year_bimester(settings)
+# insert_year_bimester(settings)
 
-insert_data('settings', db, settings)
+# insert_data('settings', db, settings)
 
-# for u in users:
-    # insert_data('users', db, u)
+for u in users:
+    insert_data('users', db, u)
 

@@ -2,13 +2,13 @@
     "metadata": {
         "school": "ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL DULCINÉIA ALMEIDA DO NASCIMENTO",
         "inep": "15111130",
-        "year": "2022",
+        "year": "2023",
         "shared": "mobilediagnostic@rare-deployment-332518.iam.gserviceaccount.com"
     },
     "subject": "MATEMÁTICA",
     "title": "DIAGNÓSTICO BIMESTRAL DE MATEMÁTICA",
     "grade": 2,
-    "bimester": 4,
+    "bimester": 1,
     "vars": [
         "ASSOCIA CONTAGEM DE OBJETOS, A SUA RESPECTIVA REPRESENTAÇÃO NUMÉRICA (ATÉ 1000)",
         "COMPARA E ORDENA OS NÚMEROS NATURAIS (ATÉ A ORDEM DAS CENTENAS)",

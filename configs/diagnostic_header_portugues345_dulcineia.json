@@ -2,13 +2,13 @@
     "metadata": {
         "school": "ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL DULCINÉIA ALMEIDA DO NASCIMENTO",
         "inep": "15111130",
-        "year": "2022",
+        "year": "2023",
         "shared": "mobilediagnostic@rare-deployment-332518.iam.gserviceaccount.com"
     },
     "subject": "PORTUGUÊS",
     "title": "DIAGNÓSTICO BIMESTRAL DE PORTUGUÊS",
-    "grade": 5,
-    "bimester": 4,
+    "grade": 4,
+    "bimester": 1,
     "vars": [
         "ESCREVE TEXTOS COM COESÃO",
         "ESCREVE TEXTOS COM COERÊNCIA",
