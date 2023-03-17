@@ -1,6 +1,0 @@
-{
-    "header_file": "configs/diagnostic_header_psicogenese2_dulcineia.json",
-    "students_file": "data/students_dulcineia_1bim_2023.csv",
-    "classrooms_file": "data/classrooms_dulcineia.csv",
-    "users_file": "data/users.csv"
-}
