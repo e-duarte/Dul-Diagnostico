@@ -8,7 +8,7 @@ from firebase_admin import firestore
 
 credentials_path = '/home/ewerton/Credentials/service_account_firebase_diagnostic_script.json'
 SETTINGS_FILE = 'configs/settings_app.json'
-USERS_FILE = 'data/users.csv'
+USERS_FILE = '/home/ewerton/Documents/Dulcineia/Apps e Programas/arquivos de configuração diagnóstico planilhas/data/users.csv'
 
 
 def load_json(file_path):
@@ -45,20 +45,20 @@ def insert_year_bimester(setting_obj):
     setting_obj['year'] = datetime.now().year
     setting_obj['bimester'] = setting_obj['tests'][0]['bimester']
 
-# settings = load_json(SETTINGS_FILE)
+settings = load_json(SETTINGS_FILE)
 
-users = load_users(USERS_FILE)
+# users = load_users(USERS_FILE)
 
 init_firestore()
 
 db = firestore.client()
 
-# settings['timestamp'] = datetime.timestamp(datetime.now())
+settings['timestamp'] = datetime.timestamp(datetime.now())
 
-# insert_year_bimester(settings)
+insert_year_bimester(settings)
 
-# insert_data('settings', db, settings)
+insert_data('settings', db, settings)
 
-for u in users:
-    insert_data('users', db, u)
+# for u in users:
+#     insert_data('users', db, u)
 

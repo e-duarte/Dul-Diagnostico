@@ -650,14 +650,10 @@ def get_students(class_id):
 
     students = class_students[class_id]
     students.sort()
-    for s in students:
-        print(s)
+    
     students = [[student] for student in students]
 
     return students
-
-get_students('F2M905')
-exit()
 
 classrooms = get_classrooms(CLASSROOMS_FILE, grade=GRADE)
 
