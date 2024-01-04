@@ -26,7 +26,7 @@ METADATA = header_data['metadata']
 
 SCOPES = ['https://www.googleapis.com/auth/drive','https://www.googleapis.com/auth/spreadsheets', ]
 # CREDENTIALS = f'{sys._MEIPASS}/credentials.json' 
-CREDENTIALS = '/home/ewerton/Credentials/client_secret_api_console_diagnostic_script.json' 
+CREDENTIALS = '/home/eduarte/credentials/diagnostico_desktop.json'
 
 
 class GoogleSheetConnect:
@@ -56,7 +56,6 @@ class SpreadsheetService:
         self.drive = google_connect.drive
         self.spreadsheet = {}
     
-
     def search_folder(self, name):
         page_token = None
         return self.drive.files().list(q=f"mimeType='application/vnd.google-apps.folder' and name='{name}'",
@@ -167,7 +166,6 @@ class SpreadsheetService:
         self.share_spreadsheet(spreadsheet_id)
 
         self.spreadsheet = spreadsheet
-
 
     def write(self, range, body):
         result = self.service.spreadsheets().values().update(
@@ -617,8 +615,6 @@ def data_validation(spreadsheet_service, num_rows, num_vars, sheet_id, data_valu
 def get_classrooms(file, grade='.'):
     classrooms_df = pd.read_csv(file, na_filter=False)
     columns = classrooms_df.columns.values
-
-    
 
     classrooms_df = classrooms_df[classrooms_df[columns[1]] == grade] if not grade == '' else classrooms_df
     dict_classrooms = []

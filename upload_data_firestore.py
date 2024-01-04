@@ -6,7 +6,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-credentials_path = '/home/ewerton/Credentials/service_account_firebase_diagnostic_script.json'
+credentials_path = '/home/eduarte/credentials/diagnostico_firebase_desktop.json'
 SETTINGS_FILE = 'configs/settings_app.json'
 USERS_FILE = '/home/ewerton/Documents/Dulcineia/Apps e Programas/arquivos de configuração diagnóstico planilhas/data/users.csv'
 
